@@ -2,8 +2,8 @@
 
 require "redmine"
 
-$NAME = :git_tag_artifacts_1_0_0
-$PLUGIN_NAME = :plugin_git_tag_artifacts_1_0_0
+$NAME_CODE_ARTIFACTS = :git_tag_artifacts_1_0_0
+$PLUGIN_NAME_CODE_ARTIFACTS = :plugin_git_tag_artifacts_1_0_0
 
 def init
   begin
@@ -52,4 +52,4 @@ Redmine::Plugin.register :git_tag_artifacts_1_0_0 do
 
 end
 
-puts Setting[$PLUGIN_NAME]
+puts Setting[$PLUGIN_NAME_CODE_ARTIFACTS]

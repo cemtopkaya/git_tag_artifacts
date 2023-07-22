@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'code_artifacts.js', :plugin => $NAME %>
+<%= javascript_include_tag 'code_artifacts.js', :plugin => $NAME_CODE_ARTIFACTS %>
 
 <script>
 
@@ -8,7 +8,7 @@ $(document).ready(function () {
   let tabHeaderId = 'tab-code_artifacts'
   let tabContentId = 'tab-content-code_artifacts'
   let url = `/issues/${issueId}?tab=${tabName}`;
-  let remote_url = `/ulak_test/issues/${issueId}/tab/${tabName}`;
+  let remote_url = `/code_artifacts/issues/${issueId}/tab/${tabName}`;
 
   function createTabHeader($history_ul) {
     // Tab'ın başlığını oluşturup sekmelerin yanına yerleştirelim

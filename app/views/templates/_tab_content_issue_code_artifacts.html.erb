@@ -77,7 +77,7 @@
       const select_id = this.id
       const changeset_id = $(this).attr("id").split('-')[1]
       const selected_tag = e.params.data.id
-      const url = `/ulak_test/issues/<%=issue_id%>/tab/code_artifacts/changesets/${changeset_id}/tags?tag=${selected_tag}`
+      const url = `/code_artifacts/issues/<%=issue_id%>/tab/code_artifacts/changesets/${changeset_id}/tags?tag=${selected_tag}`
       $.get( url, function( data ) {
 
         $("div.artifact").each(function(idx, div){

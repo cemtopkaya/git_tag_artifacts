@@ -8,13 +8,13 @@ Rails.application.routes.draw do
     end
   
     # Issue Code Artifacts rotası
-    get "/ulak_test/issues/:issue_id/tab/code_artifacts", to: "issue_code_artifacts#view_issue_code_artifacts"
+    get "/code_artifacts/issues/:issue_id/tab/code_artifacts", to: "issue_code_artifacts#view_issue_code_artifacts"
     # get "/ulak_test/tab/code_artifacts/issues/:issue_id/changesets/:changeset_id/tags/:tag", to: "issue_code_artifacts#get_tag_artifact_metadata"
-    get "/ulak_test/issues/:issue_id/tab/code_artifacts/changesets/:changeset_id/tags", to: "issue_code_artifacts#get_tag_artifact_metadata"
+    get "/code_artifacts/issues/:issue_id/tab/code_artifacts/changesets/:changeset_id/tags", to: "issue_code_artifacts#get_tag_artifact_metadata"
 
     
     # Jenkins Scriptler API rotası
-    get "ulak_test/environments", to: "jenkins_scriptler_api#get_environments"
+    get "code_artifacts/environments", to: "jenkins_scriptler_api#get_environments"
   
   end
   
