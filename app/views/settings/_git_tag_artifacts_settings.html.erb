@@ -1,0 +1,68 @@
+<style>
+  #plugin_settings_table {
+    width: 100%;
+  }
+
+  #plugin_settings_table td:nth-child(2) {
+    width: 80%;
+  }
+
+  #plugin_settings_table input {
+    width: 100%;
+  }
+
+  #plugin_settings_table th {
+    text-align: left;
+  }
+
+  #plugin_settings_table thead th {
+    text-align: center;
+  }
+</style>
+
+<table id="plugin_settings_table">
+  <thead>
+    <tr>
+      <th colspan="2">Git TAG Artifacts Settings</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th colspan="2" style="text-align:center">Jenkins Settings</th>
+    </tr>
+    <tr>
+      <th>Jenkins URL</th>
+      <td>
+        <%= text_field_tag "settings_jenkins_url", @plugin.settings[:default]["jenkins_url"] %>
+      </td>
+    </tr>
+    <tr>
+      <th>Jenkins Username</th>
+      <td>
+        <%= text_field_tag "settings_jenkins_username", @plugin.settings[:default]["jenkins_username"] %>
+      </td>
+    </tr>
+    <tr>
+      <th>Jenkins TOKEN</th>
+      <td>
+        <%= password_field_tag "settings_jenkins_token", @plugin.settings[:default]["jenkins_token"] %>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" style="text-align:center">Jenkins Deployment Job</th>
+    </tr>
+    <tr>
+      <th>URL Path</th>
+      <td>
+        <%= text_field_tag "settings_deployment_job_path", @plugin.settings[:default]["deployment_job_path"] %>
+      </td>
+    </tr>
+    <tr>
+      <th>Token</th>
+      <td>
+        <%= text_field_tag "settings_deployment_job_token", @plugin.settings[:default]["deployment_job_token"] %>
+      </td>
+    </tr>
+  </tbody>
+</table>

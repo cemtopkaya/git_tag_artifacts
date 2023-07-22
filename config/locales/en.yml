@@ -1,0 +1,4 @@
+# English strings go here for Rails i18n
+en:
+  text_issue_code_artifacs: Code Artifacts
+  text_git_tag_description_empty: Git tag doesn't have any description points artifacts.

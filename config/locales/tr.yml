@@ -1,0 +1,4 @@
+# Turkish strings go here for Rails i18n
+tr:
+  text_issue_code_artifacs: Kod Çıktıları
+  text_git_tag_description_empty: Etiketin açıklamasında üretilen çıktı bilgisine erişilemedi
