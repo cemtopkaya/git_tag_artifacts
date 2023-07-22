@@ -39,8 +39,8 @@ Redmine::Plugin.register :git_tag_artifacts_1_0_0 do
   author_url "https://cemtopkaya.com"
   requires_redmine :version_or_higher => "5.0.0"
 
-  PLUGIN_ROOT = Pathname.new(__FILE__).join("..").realpath.to_s
-   yaml_settings = YAML::load(File.open(File.join(PLUGIN_ROOT + "/config", "settings.yml")))
+  PLUGIN_ROOT_CODE_ARTIFACTS = Pathname.new(__FILE__).join("..").realpath.to_s
+   yaml_settings = YAML::load(File.open(File.join(PLUGIN_ROOT_CODE_ARTIFACTS + "/config", "settings.yml")))
 
   settings :default => {
     "jenkins_url" => yaml_settings["jenkins_url"],
