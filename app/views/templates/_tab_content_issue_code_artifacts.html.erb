@@ -34,8 +34,8 @@
 
         <div class="wiki changeset-comments"><%= format_changeset_comments changeset %></div>
         <div class="wiki changeset-comments">
-          <label for="select_tag_revision-<%= changeset.id %>" style="font-weight: bold;">Tags: </label>
-          <select id="select_tag_revision-<%= changeset.id %>">
+          <label for="revision_tags-<%= changeset.id %>" style="font-weight: bold;">Tags: </label>
+          <select id="revision_tags-<%= changeset.id %>">
             <option value="">Seçiniz</option>
             <% tag_info = UlakTest::Git.commit_tags(changeset.repository.url, changeset.identifier) %>
             <%= options_for_select(tag_info.map { |tag| ["#{tag[:date]}", tag[:tag]] }) %>
@@ -64,7 +64,7 @@
         return $div
     }
 
-    $('[id^="select_tag_revision-"]').select2({
+    $('[id^="revision_tags-"]').select2({
         width:"350px",
         templateResult: templateTagOption
     }).on('select2:select', function (e) {
@@ -84,7 +84,7 @@
           $(div).html('')
         })
 
-        $(`[id^="select_tag_revision-"]:not(#${select_id})`).each(function(idx, select){
+        $(`[id^="revision_tags-"]:not(#${select_id})`).each(function(idx, select){
           $(select).val('').trigger('change');
         })
 
