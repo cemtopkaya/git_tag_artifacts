@@ -30,7 +30,7 @@ else
   end
 end
 
-Redmine::Plugin.register :git_tag_artifacts_1_0_0 do
+Redmine::Plugin.register $NAME_CODE_ARTIFACTS do
   name "Git Tag Artifacts"
   author "Cem Topkaya"
   description "This plugin brings artifacts from git tags contains associated revisions"
@@ -50,6 +50,14 @@ Redmine::Plugin.register :git_tag_artifacts_1_0_0 do
     "deployment_job_token" => yaml_settings["deployment_job_token"],
   }, partial: "settings/git_tag_artifacts_settings.html"
 
+  project_module $NAME_CODE_ARTIFACTS do
+    # Code Artifacts sekme başlığını
+    permission :view_issue_code_artifacts_tab, {}
+    # Code Artifacts sekme içeriğini göster
+    permission :view_issue_code_artifacts, { issue_code_artifacts: :view_issue_code_artifacts }
+    # Code Artifacts etiketlerinin bilgilerini çek
+    permission :get_tag_artifact_metadata, { issue_code_artifacts: :get_tag_artifact_metadata }
+  end
 end
 
 puts Setting[$PLUGIN_NAME_CODE_ARTIFACTS]

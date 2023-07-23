@@ -8,7 +8,7 @@ class JenkinsScriptlerApiController < ApplicationController
     }
 
     arch = params[:ARCH]
-    target_servers = UlakTest::Jenkins.get_environments_by_arch(arch)
+    target_servers = GitTagArtifacts::Jenkins.get_environments_by_arch(arch)
 
     render json: { result: target_servers }, status: :ok
   end
