@@ -1,7 +1,6 @@
 <div id="kod_surumleri">
-  <% if code_revisions.empty? %>
-    <%= l(:no_associated_code_revision) %>
-  <% end %>
+
+  <%== code_revisions.empty? ? "<p>#{l(:no_associated_code_revision)}</p>" : "" %>
 
   <%
     issue = Issue.find(issue_id)
