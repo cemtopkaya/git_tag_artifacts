@@ -34,9 +34,11 @@
 
         <div class="wiki changeset-comments"><%= format_changeset_comments changeset %></div>
         <div class="wiki changeset-comments">
-          <label for="revision_tags-<%= changeset.id %>" style="font-weight: bold;">Tags: </label>
+          <label for="revision_tags-<%= changeset.id %>" style="font-weight: bold;">
+            <%= l(:label_issue_code_artifacts_tags) %>: 
+          </label>
           <select id="revision_tags-<%= changeset.id %>">
-            <option value="">Seçiniz</option>
+            <option value=""><%= l(:option_issue_code_artifacts_choose) %></option>
             <% tag_info = GitTagArtifacts::Git.commit_tags(changeset.repository.url, changeset.identifier) %>
             <%= options_for_select(tag_info.map { |tag| ["#{tag[:date]}", tag[:tag]] }) %>
           </select>
@@ -66,39 +68,44 @@ $(function(){
 
     $('[id^="revision_tags-"]').select2({
         width:"350px",
-        templateResult: templateTagOption
+        templateResult: templateTagOption,
+        templateSelection: templateTagOption
     }).on('select2:select', function (e) {
-
-      if(!e.params.data){
-        console.log(">>>>> Dolu bir seçenek seçilmedi!");
-        return null;
-      }
+      
       const $select = $(this)
       const select_id = this.id
       const changeset_id = $(this).attr("id").split('-')[1]
       const selected_tag = e.params.data.id
       const url = `/<%= $NAME_CODE_ARTIFACTS %>/issues/<%=issue_id%>/tab/code_artifacts/changesets/${changeset_id}/tags?tag=${selected_tag}`
+      const clearResultHtmlAndHide = function(){
+
+        $div_artifact = $select.parent().find('div.artifact')
+        $div_artifact.slideUp('slow',function() { this.innerHTML = '' })
+
+      }
       const processCodeArtifacts = function( data ) {
 
-        $("div.artifact").each(function(idx, div){
-          $(div).html('')
-        })
+        $('div.artifact').each(function(idx, div){ div.innerHTML = '' })
 
         $(`[id^="revision_tags-"]:not(#${select_id})`).each(function(idx, select){
           $(select).val('').trigger('change');
         })
 
-        $div_artifact = $select.parent().find("div.artifact")
-        $div_artifact && $div_artifact.hide().html( data ).slideDown( "slow", function() {});
+        $div_artifact = $select.parent().find('div.artifact')
+        $div_artifact && $div_artifact.hide().html( data ).slideDown('slow');
       }
       const processError = function(err){
-        $div_artifact = $select.parent().find("div.artifact")
-        $div_artifact && $div_artifact.hide().html( err.responseText ).slideDown( "slow", function() {});
+        $div_artifact = $select.parent().find('div.artifact')
+        $div_artifact && $div_artifact.hide().html( err.responseText ).slideDown('slow');
       }
 
-      $.get(url)
-      .done(processCodeArtifacts)
-      .fail(processError)
+      if(e.params.data && !e.params.data.id){
+        clearResultHtmlAndHide();
+      }else{
+        $.get(url)
+          .done(processCodeArtifacts)
+          .fail(processError)
+      }
     });
 });
 </script>

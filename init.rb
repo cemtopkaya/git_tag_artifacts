@@ -2,8 +2,8 @@
 
 require "redmine"
 
-$NAME_CODE_ARTIFACTS = :git_tag_artifacts_1_0_0
-$PLUGIN_NAME_CODE_ARTIFACTS = :plugin_git_tag_artifacts_1_0_0
+$NAME_CODE_ARTIFACTS = :ulak_git_tag_artifacts_v1
+$PLUGIN_NAME_CODE_ARTIFACTS = :plugin_ulak_git_tag_artifacts_v1
 
 def init
   begin
