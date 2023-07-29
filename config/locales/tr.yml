@@ -4,3 +4,4 @@ tr:
   option_issue_code_artifacts_choose: Bir etiket seçiniz
   label_issue_code_artifacts_tags: Etiketler
   text_git_tag_description_empty: Etiketin açıklamasında üretilen çıktı bilgisine erişilemedi
+  no_associated_code_revision: Henüz kod güncellemesi yapılmamış
