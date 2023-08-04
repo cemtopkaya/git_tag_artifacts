@@ -22,8 +22,6 @@ end
         </div>
         <!-- Her artifact için yükleme satırı -->
         <div class="splitcontentright">
-          <legend>
-
             <% @artifacts&.each.with_index do |artifact, index| %>
 
               <% if artifact.end_with?('.deb')
@@ -32,17 +30,19 @@ end
               %>
                 <%= label_tag "#{select_id}", package_name %>
                 <%= select_tag "#{select_id}", options_for_select([""] + @vnf_servers), onchange: "updateButtonState(this)" %>
-                <%= button_tag "Yükle", type: "button", disabled: true, onclick: "open_jenkins_run('#{package_name}', '#{select_id}');" %>
+                <% if User.current.allowed_to?(:view_deploy_artifact_button, @project) %>
+                  <%= button_tag l(:text_deploy_artifact), type: "button", disabled: true, onclick: "open_jenkins_run('#{package_name}', '#{select_id}');" %>
+                <% end %>
                 <br/>
               <% else %>
                 <%= label_tag "#{select_id}", artifact %>
                 <%= select_tag "#{select_id}", options_for_select([""] + @cnf_servers) %>
-                <%= button_tag "Yükle", type: "button", disabled: true, onclick: "open_jenkins_run('#{artifact}', '#{select_id}');" %>
+                <% if User.current.allowed_to?(:view_deploy_artifact_button, @project) %>
+                  <%= button_tag l(:text_deploy_artifact), type: "button", disabled: true, onclick: "open_jenkins_run('#{artifact}', '#{select_id}');" %>
+                <% end %>
               <% end %>
 
             <% end %> 
-          </legend>
-          <hr>
         </div>
         
         <% end %>

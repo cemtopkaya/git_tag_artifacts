@@ -23,6 +23,7 @@ class IssueCodeArtifactsController < ApplicationController
     tag = params[:tag]
 
     issue = Issue.find_by_id(issue_id)
+    @project = issue.project
     @changeset = issue.changesets.find { |cs| cs.id == changeset_id }
     repository_url = @changeset.repository.url
 

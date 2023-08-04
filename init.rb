@@ -51,6 +51,7 @@ Redmine::Plugin.register $NAME_CODE_ARTIFACTS do
   }, partial: "settings/git_tag_artifacts_settings.html"
 
   project_module $NAME_CODE_ARTIFACTS do
+    permission :view_deploy_artifact_button, {}
     # Code Artifacts sekme başlığını
     permission :view_issue_code_artifacts_tab, {}
     # Code Artifacts sekme içeriğini göster
