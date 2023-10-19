@@ -6,3 +6,4 @@ tr:
   text_git_tag_description_empty: Etiketin açıklamasında üretilen çıktı bilgisine erişilemedi
   no_associated_code_revision: Henüz kod güncellemesi yapılmamış
   text_deploy_artifact: Yükle
+  label_revision: Gözden Geçirme

@@ -2,53 +2,76 @@
 
   <%== code_revisions.empty? ? "<p>#{l(:no_associated_code_revision)}</p>" : "" %>
 
-  <%
-    issue = Issue.find(issue_id)
-    issue.changesets.each do |changeset| 
-  %>
-    <div id="changeset-<%= changeset.id %>" class="changeset journal">
-      <div class="note">
-        <h4 class='note-header'>
-          <div class="contextual">
-            <abbr title="<%= changeset.repository.url %>">
-              <%= "#{l(:label_revision)} #{changeset.format_identifier}" %>
-            </abbr>
-            <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
-              (<%= link_to(l(:label_diff),
-                           controller: "repositories",
-                           action: "diff",
-                           id: changeset.project,
-                           repository_id: changeset.repository.identifier_param,
-                           path: "",
-                           rev: changeset.identifier) %>)
-            <% end %>
-          </div>
-
-          <div>
-            <%= avatar(changeset.user, size: "24") %>
-            <%= authoring changeset.committed_on, changeset.author, label: :label_added_time_by %>
-          </div>
-        </h4>
+  <% issue = Issue.find(issue_id) %>
 
 
-        <div class="wiki changeset-comments"><%= format_changeset_comments changeset %></div>
-        <div class="wiki changeset-comments">
-          <label for="revision_tags-<%= changeset.id %>" style="font-weight: bold;">
-            <%= l(:label_issue_code_artifacts_tags) %>: 
-          </label>
-          <select id="revision_tags-<%= changeset.id %>">
-            <option value=""><%= l(:option_issue_code_artifacts_choose) %></option>
-            <% tag_info = GitTagArtifacts::Git.commit_tags(changeset.repository.url, changeset.identifier) %>
-            <%= options_for_select(tag_info.map { |tag| ["#{tag[:date]}", tag[:tag]] }) %>
-          </select>
-          <div class="artifact"></div>
+
+<!-- AKORDION -->
+<% issue.changesets.each do |changeset| %>
+  <h3>
+      <div class="left">
+        <abbr title="<%= changeset.repository.url %>">
+          <%= "#{l(:label_revision)} #{changeset.format_identifier}" %>
+        </abbr>
+        <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
+          (<%= link_to(l(:label_diff),
+                       controller: "repositories",
+                       action: "diff",
+                       id: changeset.project,
+                       repository_id: changeset.repository.identifier_param,
+                       path: "",
+                       rev: changeset.identifier) %>)
+        <% end %>
+      </div><!-- div.class="left"-->
+
+      <div class="right">
+        <div>
+          <%= avatar(changeset.user, size: "24") %>
+          <%= authoring changeset.committed_on, changeset.author, label: :label_added_time_by %>
         </div>
+      </div><!-- div.class="right"-->
+  </h3>
+  <div id="div_revision-<%= changeset.id %>" class="splitcontent" style="background-color:#e5eaef">
+
+    <div style="width: 100%;justify-content: space-between;display: flex;">
+      <div style="flex: 1;">
+        <b><%= l(:text_revision_comment) %> :</b><br/>      
+        <blockquote>
+          <%= format_changeset_comments changeset %>
+        </blockquote>
+      </div>
+      <div style="flex: 0;">
+        <label for="revision_tags-<%= changeset.id %>" style="font-weight: bold;">
+          <%= l(:label_issue_code_artifacts_tags) %>:
+        </label>
+        <select id="revision_tags-<%= changeset.id %>">
+          <option value=""><%= l(:option_issue_code_artifacts_choose) %></option>
+          <% tag_info = GitTagArtifacts::Git.commit_tags(changeset.repository.url, changeset.identifier) %>
+          <%= options_for_select(tag_info.map { |tag| ["#{tag[:date]}", tag[:tag]] }) %>
+        </select>
       </div>
     </div>
-    <%= call_hook(:view_issues_history_changeset_bottom, { changeset: changeset }) %>
-    <hr style="margin-bottom:50px">
-  <% end %>
+    <!-- Artifacts & Deployment & Run Tests -->
+    <div>
+      <div class="artifact"></div>
+    </div>
+
+  </div><!-- /splitcontent -->
+<% end %>
+
+<!-- AKORDION BITTI -->
+
 </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,27 +93,27 @@ $(function(){
         templateResult: templateTagOption,
         templateSelection: templateTagOption
     }).on('select2:select', function (e) {
-      
       const $select = $(this)
       const select_id = this.id
       const changeset_id = $(this).attr("id").split('-')[1]
       const selected_tag = e.params.data.id
       const url = `/<%= $NAME_CODE_ARTIFACTS %>/issues/<%=issue_id%>/tab/code_artifacts/changesets/${changeset_id}/tags?tag=${selected_tag}`
       const clearResultHtmlAndHide = function(){
-
-        $div_artifact = $select.parent().find('div.artifact')
+        var $splitcontent = $(this).closest('.splitcontent');
+        var $div_artifact = $splitcontent.find('.artifact');
+        
         $div_artifact.slideUp('slow',function() { this.innerHTML = '' })
-
       }
       const processCodeArtifacts = function( data ) {
+        var $splitcontent = $select.closest('.splitcontent');
+        var $div_artifact = $splitcontent.find('.artifact');
 
-        $('div.artifact').each(function(idx, div){ div.innerHTML = '' })
+        $div_artifact.each(function(idx, div){ div.innerHTML = '' })
 
         $(`[id^="revision_tags-"]:not(#${select_id})`).each(function(idx, select){
           $(select).val('').trigger('change');
         })
-
-        $div_artifact = $select.parent().find('div.artifact')
+        
         $div_artifact && $div_artifact.hide().html( data ).slideDown('slow');
       }
       const processError = function(err){
@@ -99,12 +122,12 @@ $(function(){
       }
 
       if(e.params.data && !e.params.data.id){
-        clearResultHtmlAndHide();
-      }else{
-        $.get(url)
-          .done(processCodeArtifacts)
-          .fail(processError)
-      }
+        return clearResultHtmlAndHide();
+      } 
+
+      $.get(url).done(processCodeArtifacts).fail(processError)
     });
+    
+    $('#kod_surumleri').accordion({ heightStyle: "content" });
 });
 </script>

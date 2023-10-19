@@ -1,17 +1,20 @@
+# encoding: UTF-8
 module GitTagArtifacts
   module Jenkins
-    
+    module Settings
+    end
+
     @jenkins_settings = nil
 
-    def self.get_jenkins_settings
+    def self.get_jenkins_settings()
       # Eğer sonuç ön bellekte varsa, direkt olarak onu döndür.
       return @jenkins_settings if @jenkins_settings
-      
-      jenkins_url = Setting[$PLUGIN_NAME_CODE_ARTIFACTS]["jenkins_url"]
-      jenkins_username = Setting[$PLUGIN_NAME_CODE_ARTIFACTS]["jenkins_username"]
-      jenkins_token = Setting[$PLUGIN_NAME_CODE_ARTIFACTS]["jenkins_token"]
-      deployment_job_path = Setting[$PLUGIN_NAME_CODE_ARTIFACTS]["deployment_job_path"]
-      deployment_job_token = Setting[$PLUGIN_NAME_CODE_ARTIFACTS]["deployment_job_token"]
+
+      jenkins_url = Setting[$PLUGIN_NAME_CODE_ARTIFACTS][:jenkins_url]
+      jenkins_username = Setting[$PLUGIN_NAME_CODE_ARTIFACTS][:jenkins_username]
+      jenkins_token = Setting[$PLUGIN_NAME_CODE_ARTIFACTS][:jenkins_token]
+      deployment_job_path = Setting[$PLUGIN_NAME_CODE_ARTIFACTS][:deployment_job_path]
+      deployment_job_token = Setting[$PLUGIN_NAME_CODE_ARTIFACTS][:deployment_job_token]
 
       if jenkins_url.blank? || jenkins_username.blank? || jenkins_token.blank?
         Rails.logger.warn("--- Error: JENKINS INFO can't be retrieved...")

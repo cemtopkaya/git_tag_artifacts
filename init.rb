@@ -2,8 +2,9 @@
 
 require "redmine"
 
-$NAME_CODE_ARTIFACTS = :ulak_git_tag_artifacts_v1
-$PLUGIN_NAME_CODE_ARTIFACTS = :plugin_ulak_git_tag_artifacts_v1
+$NAME_CODE_ARTIFACTS = :git_tag_artifacts
+$PLUGIN_NAME_CODE_ARTIFACTS = :plugin_git_tag_artifacts
+# $PLUGIN_NAME_CODE_ARTIFACTS = "plugin_#{$NAME_CODE_ARTIFACTS}".to_sym
 
 def init
   begin
@@ -40,15 +41,7 @@ Redmine::Plugin.register $NAME_CODE_ARTIFACTS do
   requires_redmine :version_or_higher => "5.0.0"
 
   PLUGIN_ROOT_CODE_ARTIFACTS = Pathname.new(__FILE__).join("..").realpath.to_s
-   yaml_settings = YAML::load(File.open(File.join(PLUGIN_ROOT_CODE_ARTIFACTS + "/config", "settings.yml")))
-
-  settings :default => {
-    "jenkins_url" => yaml_settings["jenkins_url"],
-    "jenkins_username" => yaml_settings["jenkins_username"],
-    "jenkins_token" => yaml_settings["jenkins_token"],
-    "deployment_job_path" => yaml_settings["deployment_job_path"],
-    "deployment_job_token" => yaml_settings["deployment_job_token"],
-  }, partial: "settings/git_tag_artifacts_settings.html"
+  yaml_settings = YAML::load(File.open(File.join(PLUGIN_ROOT_CODE_ARTIFACTS + "/config", "settings.yml")))
 
   project_module $NAME_CODE_ARTIFACTS do
     permission :view_deploy_artifact_button, {}
@@ -59,6 +52,12 @@ Redmine::Plugin.register $NAME_CODE_ARTIFACTS do
     # Code Artifacts etiketlerinin bilgilerini çek
     permission :get_tag_artifact_metadata, { issue_code_artifacts: :get_tag_artifact_metadata }
   end
-end
 
-puts Setting[$PLUGIN_NAME_CODE_ARTIFACTS]
+  settings :default => {
+    :jenkins_url => yaml_settings["jenkins_url"],
+    :jenkins_username => yaml_settings["jenkins_username"],
+    :jenkins_token => yaml_settings["jenkins_token"],
+    :deployment_job_path => yaml_settings["deployment_job_path"],
+    :deployment_job_token => yaml_settings["deployment_job_token"],
+  }, :partial => "settings/plugin_settings"
+end

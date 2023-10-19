@@ -22,9 +22,9 @@ class IssueCodeArtifactsController < ApplicationController
     changeset_id = params[:changeset_id].to_i
     tag = params[:tag]
 
-    issue = Issue.find_by_id(issue_id)
-    @project = issue.project
-    @changeset = issue.changesets.find { |cs| cs.id == changeset_id }
+    @issue = Issue.find_by_id(issue_id)
+    @project = @issue.project
+    @changeset = @issue.changesets.find { |cs| cs.id == changeset_id }
     repository_url = @changeset.repository.url
 
     @jenkins = GitTagArtifacts::Jenkins.get_jenkins_settings
@@ -59,7 +59,7 @@ class IssueCodeArtifactsController < ApplicationController
     issue = Issue.find(issue_id)
     code_revisions = GitTagArtifacts::Git.findTagsOfCommits(issue.changesets)
 
-    jenkins = GitTagArtifacts::Jenkins.get_jenkins_settings
+    jenkins = GitTagArtifacts::Jenkins.get_jenkins_settings()
     vnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("VNF")
     cnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("CNF")
 

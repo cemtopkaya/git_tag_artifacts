@@ -6,3 +6,4 @@ en:
   text_git_tag_description_empty: Git tag doesn't have any description points artifacts.
   no_associated_code_revision: No code update yet
   text_deploy_artifact: Deploy
+  label_revision: Revision
