@@ -58,8 +58,8 @@ end
 <script>
   function open_jenkins_run(packageName, selectId){
     const JENKINS_URL="<%= @jenkins[:url] %>"
-    const JOB="<%= @jenkins[:job] %>"
-    const JOB_TOKEN="<%= @jenkins[:job_token] %>"
+    const JOB="<%= @jenkins[:deployment_job_path] %>"
+    const JOB_TOKEN="<%= @jenkins[:deployment_job_token] %>"
     const [package, version] = packageName.split('_')
     const DEBIAN_PACKAGE=`${package}=${version}`
     const TARGET_SERVER=$('#'+selectId).val()

@@ -29,6 +29,8 @@ module GitTagArtifacts
         deployment_job_path: deployment_job_path,
         deployment_job_token: deployment_job_token,
       }
+
+      return @jenkins_settings
     end
 
     def self.get_environments_by_arch(arch)

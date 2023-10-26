@@ -20,7 +20,7 @@ class IssueCodeArtifactsController < ApplicationController
     puts ">>>>>>>>>> get_tag_artifact_metadata.............."
     issue_id = params[:issue_id]
     changeset_id = params[:changeset_id].to_i
-    tag = params[:tag]
+    tag_name = params[:tag]
 
     @issue = Issue.find_by_id(issue_id)
     @project = @issue.project
@@ -30,7 +30,7 @@ class IssueCodeArtifactsController < ApplicationController
     @jenkins = GitTagArtifacts::Jenkins.get_jenkins_settings
     @vnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("VNF")
     @cnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("CNF")
-    @artifacts_metadata = GitTagArtifacts::Git.tag_artifacts_metadata(repository_url, tag)
+    @artifacts_metadata = GitTagArtifacts::Git.tag_artifacts_metadata(repository_url, tag_name)
     @artifacts = @artifacts_metadata&.dig("distros")&.map { |cs| cs["artifacts"] }&.compact&.flatten || []
 
     html_content = render_to_string(
