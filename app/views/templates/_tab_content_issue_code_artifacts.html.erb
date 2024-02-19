@@ -10,7 +10,7 @@
 <% issue.changesets.each do |changeset| %>
   <h3>
       <div class="left">
-        <abbr title="<%= changeset.repository.url %>">
+        <abbr title="<%= changeset.repository.root_url %>">
           <%= "#{l(:label_revision)} #{changeset.format_identifier}" %>
         </abbr>
         <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
@@ -46,7 +46,7 @@
         </label>
         <select id="revision_tags-<%= changeset.id %>">
           <option value=""><%= l(:option_issue_code_artifacts_choose) %></option>
-          <% tag_info = GitTagArtifacts::Git.commit_tags(changeset.repository.url, changeset.identifier) %>
+          <% tag_info = GitTagArtifacts::Git.commit_tags(changeset.repository.root_url, changeset.identifier) %>
           <%= options_for_select(tag_info.map { |tag| ["#{tag[:date]}", tag[:tag]] }) %>
         </select>
       </div>
