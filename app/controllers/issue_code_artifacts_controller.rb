@@ -25,12 +25,12 @@ class IssueCodeArtifactsController < ApplicationController
     @issue = Issue.find_by_id(issue_id)
     @project = @issue.project
     @changeset = @issue.changesets.find { |cs| cs.id == changeset_id }
-    repository_url = @changeset.repository.url
+    repository_directory = @changeset.repository.root_url
 
     @jenkins = GitTagArtifacts::Jenkins.get_jenkins_settings
     @vnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("VNF")
     @cnf_servers = GitTagArtifacts::Jenkins.get_environments_by_arch("CNF")
-    @artifacts_metadata = GitTagArtifacts::Git.tag_artifacts_metadata(repository_url, tag_name)
+    @artifacts_metadata = GitTagArtifacts::Git.tag_artifacts_metadata(repository_directory, tag_name)
     @artifacts = @artifacts_metadata&.dig("distros")&.map { |cs| cs["artifacts"] }&.compact&.flatten || []
 
     html_content = render_to_string(
