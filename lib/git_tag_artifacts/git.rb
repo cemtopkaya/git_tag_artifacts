@@ -85,7 +85,7 @@ module GitTagArtifacts
         # git_tag_command = "git -C #{Repository.find_by_id(cs.repository_id).url} tag --contains #{cs.revision}"
         isMergeTags = false
         merge_tags = isMergeTags ? "--merged" : ""
-        git_tag_command = "git -C #{cs.repository.url} tag #{merge_tags} --contains #{cs.revision} "
+        git_tag_command = "git -C #{cs.repository.root_url} tag #{merge_tags} --contains #{cs.revision} "
         puts ">>>> git_tag_command: #{git_tag_command}"
 
         # Komutu çalıştırın ve çıktıyı yakalayın
@@ -97,9 +97,9 @@ module GitTagArtifacts
         # Her etiket için açıklamayı alın ve eşleşen etiketleri yazdırın
         tags.each do |tag|
           # Etiket açıklamasını almak için `git show` komutunu kullanın
-          # git_show_command = "git -C #{Repository.find_by_id(cs.repository_id).url} show #{tag}"
-          # git_show_command = "git -C #{cs.repository.url} show #{tag}"
-          git_cat_command = "git -C #{cs.repository.url} cat-file -p #{tag}"
+          # git_show_command = "git -C #{Repository.find_by_id(cs.repository_id).root_url} show #{tag}"
+          # git_show_command = "git -C #{cs.repository.root_url} show #{tag}"
+          git_cat_command = "git -C #{cs.repository.root_url} cat-file -p #{tag}"
           puts ">>>> git_cat_command: #{git_cat_command}"
           git_cat_output = `#{git_cat_command}`
 
